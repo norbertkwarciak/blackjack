@@ -1,0 +1,30 @@
+.Blackjack
+  header
+    height: 4rem
+    display: flex
+    align-items: center
+    border-bottom: 3px solid black
+
+    h2
+      margin: 0
+
+  .container
+    max-width: 1200px
+    margin: 0 auto
+    padding: 2rem 0
+    display: flex
+    justify-content: center
+
+  &__game
+    height: calc(100vh - 4rem)
+
+  &__table
+    width: 50rem
+    border: 1px solid black
+    border-radius: 5px
+
+  &__actions
+    text-align: center
+
+    button ~ button
+      margin-left: 1rem

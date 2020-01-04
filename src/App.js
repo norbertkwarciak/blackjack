@@ -1,24 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { getDeck }                    from './logic/deck';
+import Player                         from './components/Player';
+
+import './App.sass';
 
 function App() {
+  const [cards, setCards] = useState([]);
+  const [result, setResult] = useState(0);
+  // const [gameOver, endGame] = useState(false);
+
+  const drawCards = () => {
+    const results = getDeck()
+      .sort(() => .5 - Math.random())
+      .slice(0, 2);
+
+    const points = results
+      .map(c => c.value)
+      .reduce((prev, curr) => prev + curr, 0);
+
+    setCards(results);
+    setResult(points);
+  }
+
+  const startGame = () => {
+    drawCards();
+  }
+  const stand = () => {}
+
+  useEffect(() => drawCards(), []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="Blackjack">
+      <header>
+        <div className="container">
+          <h2>Blackjack</h2>
+        </div>
       </header>
+      <div className="Blackjack__game">
+        <div className="container">
+          <div className="Blackjack__table">
+            <Player cards={cards} />
+            <div className="Blackjack__actions">
+              <button onClick={startGame}>New Game</button>
+              <button onClick={drawCards}>Hit</button>
+              <button onClick={stand}>Stand</button>
+            </div>
+
+            <span>Result: {result}</span>
+
+            {/* {gameOver && <span>You lost!</span>} */}
+
+            <Player cards={cards} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
