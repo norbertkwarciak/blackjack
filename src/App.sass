@@ -1,17 +1,16 @@
+@import "theme/common-style"
+
 .Blackjack
   header
     height: 4rem
     display: flex
     align-items: center
-    border-bottom: 3px solid black
+    border-bottom: 3px solid $color-black
 
     h2
       margin: 0
 
   .container
-    max-width: 1200px
-    margin: 0 auto
-    padding: 2rem 0
     display: flex
     justify-content: center
 
@@ -20,7 +19,7 @@
 
   &__table
     width: 50rem
-    border: 1px solid black
+    border: 1px solid $color-black
     border-radius: 5px
 
   &__actions

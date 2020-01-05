@@ -1,7 +1,24 @@
+@import "theme/common-style"
+
 .Card
   width: 8rem
   height: 12rem
+  display: flex
+  justify-content: space-between
   margin: 1rem
-  border: 1px solid black
+  padding: .5rem
+  border: 1px solid $color-black
   border-radius: 3px
-  background: lightgray
+  background: $color-white
+
+  &__suit
+    +font(2.5em)
+    align-self: center
+
+  &__value
+
+    span
+      display: block
+
+    &--rotated
+      transform: rotate(180deg)

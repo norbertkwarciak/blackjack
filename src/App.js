@@ -41,9 +41,9 @@ function App() {
           <div className="Blackjack__table">
             <Player cards={cards} />
             <div className="Blackjack__actions">
-              <button onClick={startGame}>New Game</button>
-              <button onClick={drawCards}>Hit</button>
-              <button onClick={stand}>Stand</button>
+              <button className="btn" onClick={startGame}>New Game</button>
+              <button className="btn" onClick={drawCards}>Hit</button>
+              <button className="btn" onClick={stand}>Stand</button>
             </div>
 
             <span>Result: {result}</span>
