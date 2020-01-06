@@ -21,15 +21,10 @@ code
   margin: 0 auto
   padding: 2rem 0
 
-=btn
-  width: 5rem
-  height: 2rem
-  border: 1px solid $color-black
-  border-radius: 3px
-  cursor: pointer
+=flexContainer($justify-content: 'flex-start', $align-items: 'stretch', $flex-flow: 'row nowrap')
+  display: flex
+  justify-content: #{$justify-content}
+  align-items: #{$align-items}
 
 .container
   +container
-
-.btn
-  +btn

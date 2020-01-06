@@ -1,0 +1,19 @@
+@import "theme/common-style"
+
+.Button
+  width: 5rem
+  height: 2rem
+  border: 1px solid $color-black
+  border-radius: 3px
+  background: $color-btn
+  cursor: pointer
+  transition: background .5s ease
+
+  &:hover
+    background: darken($color-btn, 10%)
+
+  &.disabled
+    border: 1px solid $color-btn-border
+    &:hover
+      cursor: not-allowed
+      background: $color-btn

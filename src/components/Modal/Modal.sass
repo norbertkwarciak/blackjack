@@ -1,0 +1,30 @@
+@import "theme/common-style"
+
+.Modal
+  min-width: 40%
+  max-height: 70vh
+  padding: 2rem
+  border-radius: 5px
+  outline: none
+  background: $color-white
+
+  &__overlay
+    +flexContainer('center', 'center')
+    position: fixed
+    left: 0
+    right: 0
+    top: 0
+    bottom: 0
+    background: rgba($color-black, .5)
+    z-index: 9998
+    transition: opacity .3s
+
+    &.ReactModal__Overlay
+      &--after-open
+        opacity: 1
+
+      &--before-close
+        opacity: 0
+
+
+
