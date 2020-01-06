@@ -8,6 +8,7 @@ import Player                         from 'components/Player';
 import './App.sass';
 
 const BLACKJACK = 21;
+const DEALER_LIMIT = 19;
 
 function App() {
   const [deck, setDeck] = useState([]);
@@ -17,22 +18,21 @@ function App() {
   const [message, setMessage] = useState('');
   const [gameOver, endGame] = useState(false);
 
-  const getRandomCard = () => {
-    const updatedDeck = getDeck(); // tablica kart
-    const randomIndex = Math.floor(Math.random() * updatedDeck.length); // losuję randomową kartę
-    const randomCard = updatedDeck[randomIndex]; // zapisuję randomową kartę
+  const getRandomCard = deck => {
+    const randomIndex = Math.floor(Math.random() * deck.length); // losuję randomową kartę
+    const randomCard = deck[randomIndex]; // zapisuję randomową kartę
 
-    updatedDeck.splice(randomIndex, 1); // usuwam wylosowaną kartę z tablicy
+    deck.splice(randomIndex, 1); // usuwam wylosowaną kartę z tablicy
 
-    return { randomCard, updatedDeck }; // zwracam wylosowaną kartę i zmodyfikowaną tablicę kart
+    return { randomCard, updatedDeck: deck }; // zwracam wylosowaną kartę i zmodyfikowaną tablicę kart
   }
 
-  const getCount = cards => {
-    const count = cards
+  const getScore = cards => {
+    const score = cards
       .map(c => c.value)
       .reduce((prev, curr) => prev + curr, 0);
 
-    return count;
+    return score;
   }
 
   const dealCards = deck => {
@@ -46,11 +46,11 @@ function App() {
 
     const player = {
       cards: playerStartingHand,
-      count: getCount(playerStartingHand)
+      score: getScore(playerStartingHand)
     };
     const dealer = {
       cards: dealerStartingHand,
-      count: getCount(dealerStartingHand)
+      score: getScore(dealerStartingHand)
     };
 
     return {
@@ -61,8 +61,8 @@ function App() {
   }
 
   const startGame = () => {
-    dealCards(deck);
-    const { updatedDeck, player, dealer } = dealCards(deck);
+    const cards = getDeck();
+    const { updatedDeck, player, dealer } = dealCards(cards);
 
     setDeck(updatedDeck);
     setPlayer(player);
@@ -75,9 +75,9 @@ function App() {
     const { randomCard, updatedDeck } = getRandomCard(deck);
 
     player.cards.push(randomCard);
-    player.count = getCount(player.cards);
+    player.score = getScore(player.cards);
 
-    if (player.count > BLACKJACK) {
+    if (player.score > BLACKJACK) {
       setPlayer(player);
       setMessage('You lost!');
       endGame(true);
@@ -87,7 +87,60 @@ function App() {
     }
   }
 
-  const stand = () => {}
+  const dealerHit = (dealer, deck) => {
+    const { randomCard, updatedDeck } = getRandomCard(deck);
+
+    dealer.cards.push(randomCard);
+    dealer.score = getScore(dealer.cards);
+    return { dealer, updatedDeck };
+  }
+
+  const getWinner = (d, p) => {
+    if (d.score > p.score) {
+      return 'dealer';
+    } else return 'player';
+  }
+
+  const stand = () => {
+    if (!gameOver) {
+      const randomCard = getRandomCard(deck);
+
+      const d = dealer;
+      d.cards.push(randomCard.randomCard);
+      d.score = getScore(d.cards);
+
+      while(dealer.score < DEALER_LIMIT) {
+        const draw = dealerHit(d, deck);
+        setDealer(draw.dealer);
+        setDeck(draw.updatedDeck);
+      }
+
+      if(d.score > BLACKJACK) {
+        setDeck(randomCard.updatedDeck);
+        setDealer(d);
+        endGame(true);
+        setMessage('You win!');
+      } else {
+        const winner = getWinner(d, player);
+        let msg;
+
+        if (winner === 'dealer') {
+          msg = 'Dealer is the winner';
+        } else if (winner === 'player') {
+          msg = 'You win!';
+        } else {
+          msg = 'Draw';
+        }
+
+        setDeck(randomCard.updatedDeck);
+        setDealer(d);
+        endGame(true);
+        setMessage(msg);
+      }
+    } else {
+      setMessage('Game over!');
+    }
+  }
 
   useEffect(() => startGame(), []);
 
