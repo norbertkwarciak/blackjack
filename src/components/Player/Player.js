@@ -4,7 +4,6 @@ import Card  from 'components/Card/Card';
 import './Player.sass';
 
 export default function Player({player: {score, cards}, isDealer = false}) {
-  console.log("TCL: Player -> cards", cards)
   return (
     <div className="Player">
       <span>{isDealer ? 'Dealer\'s hand:' : 'Player\'s hand:'} {score}</span>
