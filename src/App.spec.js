@@ -1,5 +1,5 @@
 import React                      from 'react';
-import Enzyme, { shallow, mount } from 'enzyme';
+import Enzyme, { shallow }        from 'enzyme';
 import Adapter                    from 'enzyme-adapter-react-16';
 import App                        from './App';
 
@@ -16,20 +16,3 @@ describe('App component', () => {
   });
 
 });
-
-// describe('getWinner function', () => {
-//   test('chooses winner', () => {
-//     const wrapper = shallow(<App />);
-
-//     const player = {
-//       cards: [],
-//       score: 15
-//     }
-//     const dealer = {
-//       cards: [],
-//       score: 20
-//     }
-
-//     expect(wrapper.instance().getWinner(player, dealer)).toBe('dealer');
-//   })
-// })

@@ -68,15 +68,18 @@ function App() {
   const hit = () => {
     const { randomCard, updatedDeck } = getRandomCard(deck);
 
-    player.cards.push(randomCard);
-    player.score = getScore(player.cards);
+    const newCards = [...player.cards, randomCard];
+    const newPlayer = Object.assign({}, {
+      cards: newCards,
+      score: getScore(newCards)
+    })
 
-    if (player.score > BLACKJACK) {
-      setPlayer(player);
+    if (newPlayer.score > BLACKJACK) {
+      setPlayer(newPlayer);
       setMessage('You lost!');
       endGame(true);
     } else {
-      setPlayer(player);
+      setPlayer(newPlayer);
       setDeck(updatedDeck);
     }
   }
@@ -86,7 +89,10 @@ function App() {
 
     dealer.cards.push(randomCard);
     dealer.score = getScore(dealer.cards);
-    return { dealer, updatedDeck };
+
+    // return { dealer, updatedDeck };
+    setDealer(dealer);
+    setDeck(updatedDeck);
   }
 
   const stand = () => {
