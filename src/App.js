@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { getDeck }                    from 'logic/deck';
-import Button                         from 'components/Button';
-import Confirm                        from 'components/Confirm';
-import Modal                          from 'components/Modal';
-import Player                         from 'components/Player';
+import { getScore }                   from 'logic/score';
+import { getWinner }                  from 'logic/winner';
+import Button                         from 'components/Button/Button';
+import Confirm                        from 'components/Confirm/Confirm';
+import Modal                          from 'components/Modal/Modal';
+import Player                         from 'components/Player/Player';
 
 import './App.sass';
 
@@ -25,14 +27,6 @@ function App() {
     deck.splice(randomIndex, 1); // usuwam wylosowaną kartę z tablicy
 
     return { randomCard, updatedDeck: deck }; // zwracam wylosowaną kartę i zmodyfikowaną tablicę kart
-  }
-
-  const getScore = cards => {
-    const score = cards
-      .map(c => c.value)
-      .reduce((prev, curr) => prev + curr, 0);
-
-    return score;
   }
 
   const dealCards = deck => {
@@ -82,8 +76,8 @@ function App() {
       setMessage('You lost!');
       endGame(true);
     } else {
-      setDeck(updatedDeck);
       setPlayer(player);
+      setDeck(updatedDeck);
     }
   }
 
@@ -93,12 +87,6 @@ function App() {
     dealer.cards.push(randomCard);
     dealer.score = getScore(dealer.cards);
     return { dealer, updatedDeck };
-  }
-
-  const getWinner = (d, p) => {
-    if (d.score > p.score) {
-      return 'dealer';
-    } else return 'player';
   }
 
   const stand = () => {
@@ -121,7 +109,7 @@ function App() {
         endGame(true);
         setMessage('You win!');
       } else {
-        const winner = getWinner(d, player);
+        const winner = getWinner(player, d);
         let msg;
 
         if (winner === 'dealer') {
