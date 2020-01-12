@@ -20,15 +20,6 @@ describe('getDeck function', () => {
       expect(getDeck().find((element) => element.value === value)).toBeTruthy();
     })
   ));
-
-  // test.each`
-  // cardValue
-  // ${2}
-  // ${3}
-  // ${4}
-  // `('should include value ${cardValue}', ({cardValue}) => {
-  //     expect(getDeck().find((element) => element.value === cardValue)).toBeTruthy();
-  // });
 })
 
 describe('getFigureValue function', () => {

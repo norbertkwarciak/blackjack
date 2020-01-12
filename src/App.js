@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { getDeck }                    from 'logic/deck';
 import { getScore }                   from 'logic/score';
 import { getWinner }                  from 'logic/winner';
-import Button                         from 'components/Button/Button';
-import Confirm                        from 'components/Confirm/Confirm';
-import Modal                          from 'components/Modal/Modal';
-import Player                         from 'components/Player/Player';
+import Button                         from 'components/Button';
+import Confirm                        from 'components/Confirm';
+import Modal                          from 'components/Modal';
+import Player                         from 'components/Player';
 
 import './App.sass';
 
@@ -21,22 +21,21 @@ function App() {
   const [gameOver, endGame] = useState(false);
 
   const getRandomCard = deck => {
-    const randomIndex = Math.floor(Math.random() * deck.length); // losuję randomową kartę
-    const randomCard = deck[randomIndex]; // zapisuję randomową kartę
+    const randomIndex = Math.floor(Math.random() * deck.length);
+    const randomCard = deck[randomIndex];
 
-    deck.splice(randomIndex, 1); // usuwam wylosowaną kartę z tablicy
+    deck.splice(randomIndex, 1);
 
-    return { randomCard, updatedDeck: deck }; // zwracam wylosowaną kartę i zmodyfikowaną tablicę kart
+    return { randomCard, updatedDeck: deck };
   }
 
   const dealCards = deck => {
     const playerCard1 = getRandomCard(deck);
     const dealerCard1 = getRandomCard(playerCard1.updatedDeck);
     const playerCard2 = getRandomCard(dealerCard1.updatedDeck);
-    const dealerCard2 = getRandomCard(playerCard2.updatedDeck);
 
     const playerStartingHand = [playerCard1.randomCard, playerCard2.randomCard];
-    const dealerStartingHand = [dealerCard1.randomCard, dealerCard2.randomCard];
+    const dealerStartingHand = [dealerCard1.randomCard];
 
     const player = {
       cards: playerStartingHand,
@@ -90,9 +89,10 @@ function App() {
     dealer.cards.push(randomCard);
     dealer.score = getScore(dealer.cards);
 
-    // return { dealer, updatedDeck };
     setDealer(dealer);
     setDeck(updatedDeck);
+
+    return { dealer, updatedDeck }
   }
 
   const stand = () => {
@@ -105,6 +105,7 @@ function App() {
 
       while(dealer.score < DEALER_LIMIT) {
         const draw = dealerHit(d, deck);
+
         setDealer(draw.dealer);
         setDeck(draw.updatedDeck);
       }
