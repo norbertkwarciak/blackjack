@@ -2,12 +2,12 @@ const countSum = items => items
   .map(i => i.value)
   .reduce((prev, curr) => prev + curr, 0);
 
+const FIRST_ACE_VALUE = 11;
+const OTHER_ACE_VALUE = 1;
+
 export const getScore = cards => {
   let score;
   const aces = cards.filter(c => c.label === 'A');
-
-  const FIRST_ACE_VALUE = 11;
-  const OTHER_ACE_VALUE = 1;
 
   if (aces.length > 1) {
     const [firstAce, ...restOfAces] = aces;
