@@ -27,10 +27,6 @@ describe('getFigureValue function', () => {
     expect(getFigureValue).toBeDefined();
   });
 
-  test('should return 11 if A', () => {
-    expect(getFigureValue('A'));
-  });
-
   const figures = ['J', 'D', 'K'];
 
   figures.map(f => (
